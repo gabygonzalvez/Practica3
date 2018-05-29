@@ -3,15 +3,14 @@
 
 <html lang="es">
 	<head>
-		<title>Sweet Home</title><a name="top"> </a>
+		<title>Sweet Games</title><a name="top"> </a>
 
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="css/hoja-estilo.css" media="screen" >
 		<script src="javita.js"></script>
 	</head>
 
-	<body>
-		<script> prepararCanvas()</script>
+	<body onload="prepararCanvas();">
 
 
 	<!-- LALALALLALALALALALA -->
@@ -22,7 +21,7 @@
 	<h1><a href="index.html"> <img class="logo" src="img/logo.png" alt="logo"></a></h1>
 			<h2 class="logo"></h2>
 			<h1 class="titulo"> Sweet Games</h1>
-		<h3 class="subtitulo"> Juega al sweet puzzle </h3>
+		<h3 class="subtitulo"> Juega al sweet puzzle: Introduce la imagen que quieras convertir en un puzzle y ¡ponte a jugar! </h3><br>
 
 	</div>
 
@@ -33,10 +32,10 @@
 
 		<h1> canvas </h1>
 		<section>
-			<h2> Canvas 01 </h2>
-			<canvas id="cv01"></canvas>
+			<h2> Imagen </h2>
+			<canvas id="cv01" draggable="true"></canvas>
 			<footer> 
-				<button onclick="empezar();"> Empezar </button>
+				<button onclick="empezar();"> Añadir imagen </button>
 				
 
 			</footer>
@@ -56,11 +55,18 @@
 		</section>
 
 	</div>
+	
+  <!-- Footer -->
+  <div class="pie">
 
-	<div class="pie">
-		
-	</div>
+    <a href="acerca.html"> Acerca de Nosotras</a>
+    <p> © María Sánchez & Gabriela Gonzálvez<br>
+     <time datetime="03-2018">Mayo 2018</time><br></p>
+         
+  </div>
 
-	</body>
+  <!-- /Footer -->
+
+</body>
 	
 </html>

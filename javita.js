@@ -15,8 +15,9 @@
 
 
 var _ANCHO_= 360,
-    _ALTO_ = 360;
+    _ALTO_ = 240;
 var  ncols = 3;
+
 function sacarFilaColumna(e){
     let x = e.offsetX,
             y = e.offsetY,
@@ -26,20 +27,80 @@ function sacarFilaColumna(e){
     col=Math.floor(x/dim);
     fila=Math.floor(y/dim);
 
-    return[col,fila]
+    return[col,fila];
 }
+
 function prepararCanvas(){
     let cvs = document.querySelectorAll('canvas'); //devuelve un vector de canvas
+    let cv = document.getElementById("cv01");
+    let context = cv.getContext('2d');
+    let img = document.createElement("img");
+    let tienteTexto = true;
 
     cvs.forEach(function(e){
         e.width = _ANCHO_;
         e.height = _ALTO_;
     });
+
+
+    limpiarCanvas = function(){ //para limpiar el texto predeterminado cuando imagen
+        if(tienteTexto){
+            context.clearRect(0,0,cv.width,cv.height);
+            tienteTexto = false;
+        }
+    };
+
+
+    context.fillStyle = '#b57b7b';          //texto predeterminado
+    context.font = 'bold 18px sans-serif';
+    context.textAlign = 'center';
+    context.fillText('Haz click o arrastra una imagen aquí',180,120);
+
+
+    //drag and drop
+
+    cv.ondragover = function(e){
+
+        if(e.stopPropagation)
+            e.stopPropagation();
+
+        e.preventDefault();
+    }
+
+    cv.ondrop = function(e){
+
+        if(e.stopPropagation)
+            e.stopPropagation();
+        e.preventDefault();
+
+
+        let ficheros = e.dataTransfer.files;
+
+        if(ficheros.length > 0){
+            var fichero = ficheros[0];
+            var imagen = new FileReader();
+
+            imagen.onload = function(e){
+                //para dibujar la imagen
+                img.onload = function(){
+                    limpiarCanvas();                   
+                    context.drawImage(img, 0,0,_ANCHO_,_ALTO_);
+                };
+                img.src = e.target.result;
+            };
+            imagen.readAsDataURL(fichero);
+        }
+    }
+
+
+
 }
 
 
 
-
+function empezar(){
+   
+}
 
 function trasladar(){
         let cv = document.querySelector('#cv01'),
