@@ -33,17 +33,20 @@
 		<h1> canvas </h1>
 		<section>
 			<h2> Imagen </h2>
-			<canvas id="cv01" draggable="true"></canvas>
+			<canvas id="cv01" draggable="true" ></canvas>
 			<footer> 
-				<button onclick="empezar();"> Añadir imagen </button>
-				
+				<input type="file" id="ima" accept="image/*" onchange="pintarImagen01(this);" >
+				<button onclick="pintarImagen01();"> Añadir imagen </button>
+				<button onclick="copiarCanvas();"> Empezar </button>
 
 			</footer>
 		</section>
 
 		<section>
 			<h2> Canvas 02 </h2>
-			<canvas id="cv02"></canvas>
+			<canvas id="cv02" ></canvas>
+
+
 			<footer>
 				
 				<button onclick="trasladar();"> Trasladar </button>
