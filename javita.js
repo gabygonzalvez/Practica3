@@ -90,7 +90,7 @@ function prepararCanvas(){
         }
     }
 
-	let cv02 = document.querySelector('#cv02');
+	/*let cv02 = document.querySelector('#cv02');
 	    cv02.onmousemove = function (e){
 	        let x = e.offsetX,
 	            y = e.offsetY,
@@ -109,7 +109,7 @@ function prepararCanvas(){
 	        document.querySelector('#posXY').innerHTML=`(${x},${y}) (Col:${col},Fila:${fila})`;
 	        console.log('repintado suuuuu')
 
-}
+        }*/
 }
 
 
@@ -127,24 +127,33 @@ function copiarCanvas(){
 }
 
 //mira esto no me sale xd
-function pintarImagen01(ew){
-       let cv = document.querySelector('#cv01'),
-            ctx = cv.getContext('2d'),
-            img = new Image();
-            
-            var output = document.getElementById('ima');
-    
-            console.log("entra aqui mm")
-            console.log(ew.value)
-                img.onload = function(e){
-                	console.log("hace cosas")
-                    limpiarCanvas();                   
-                    ctx.drawImage(output, 0,0,_ANCHO_,_ALTO_);
-                    
-                };
-		output.src = URL.createObjectURL(event.target.files[0]);
-            
+function pintarImagen01(){
+    let cv = document.querySelector('#cv01'),
+    ctx = cv.getContext('2d'),
+    img = new Image();
+    var ficheros=event.target.files;
+
+    if(ficheros.length===0){
+        return;
     }
+
+    var fichero=ficheros[0];
+
+    if(fichero.type!== '' && !fichero.type.match('image.*')){
+        return;
+    }
+
+    var imagenURL = window.URL.createObjectURL(fichero);
+
+    img.onload = function(e){
+        limpiarCanvas();                   
+        ctx.drawImage(img, 0,0,_ANCHO_,_ALTO_);
+        
+    };
+
+    img.src=imagenURL;
+            
+}
 
 function dibujar(){
 	let cv02 = document.querySelector('#cv02');

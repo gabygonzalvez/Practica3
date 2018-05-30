@@ -30,31 +30,32 @@
 
 	<div class="cuerpo">
 
-		<h1> canvas </h1>
+		<!--<h1> canvas </h1>-->
 		<section>
 			<h2> Imagen </h2>
 			<canvas id="cv01" draggable="true" ></canvas>
 			<footer> 
-				<input type="file" id="ima" accept="image/*" onchange="pintarImagen01(this);" >
-				<button onclick="pintarImagen01();"> Añadir imagen </button>
+				<input type="file" id="ima" accept="image/*" onchange="pintarImagen01();" >
+				<!--<button onclick="pintarImagen01();"> Añadir imagen </button>-->
+				<br>
 				<button onclick="copiarCanvas();"> Empezar </button>
 
 			</footer>
 		</section>
 
 		<section>
-			<h2> Canvas 02 </h2>
+			<h2> Puzzle </h2>
 			<canvas id="cv02" ></canvas>
 
 
-			<footer>
+			<div class="botones">
 				
 				<button onclick="trasladar();"> Trasladar </button>
 				<button onclick="escalar();"> Escalar </button>
 				<button onclick="rotar();"> Rotar </button>
 				<button onclick="limpiar();"> Limpiar </button>
 
-			</footer>
+			</div>
 		</section>
 
 	</div>

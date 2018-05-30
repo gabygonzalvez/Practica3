@@ -141,21 +141,21 @@ div > nav > ul > li a.active {
 	text-align:center;
 }
 
-body>div>div{
+div.cuerpo{
 	
-	margin: 0 3%;
+	margin: 0 5%;
 	padding: 0 5%;
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 }
-body>div>div>section{
+section{
 	box-shadow: 5px 10px rgba(156, 125, 126, 0.3);
 	background-color: #ffded1;
 	margin: 1% 1%;
 	padding: 1% 5%;
-	width: 200px;
+	width: 400px;
 	height: 400px;
 	display: flex;
 	flex-wrap: wrap;
@@ -163,7 +163,7 @@ body>div>div>section{
 	transition: 1s ease-out;
 
 }
- body>div>div>section:hover{
+section:hover{
  	background-color: #ffbda3;
  	color: #a56666;
  	transition: 1s ease;
@@ -514,7 +514,7 @@ div.formulario>article>p{
     cursor: pointer;
 }
 button{
-	width: 7%;
+	width: 50%;
 	background-color: #c5f9f9;
 	color: #845B5B;
 	text-transform: capitalize;
@@ -525,6 +525,8 @@ button{
     border-radius: 4px;
     cursor: pointer;
     transition: 0.2s ease-out;
+    display: inline;
+	float: left;
 }
 button:active {
   background-color: #80e5e5;
