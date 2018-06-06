@@ -10,7 +10,7 @@
 		<script src="javita.js"></script>
 	</head>
 
-	<body onload="prepararCanvas();">
+	<body onload="prepararCanvas(); deshabilitarBotones();">
 
 
 	<!-- LALALALLALALALALALA -->
@@ -30,16 +30,13 @@
 
 	<div class="cuerpo">
 
-		<!--<h1> canvas </h1>-->
 		<section>
 			<h2> Imagen </h2>
 			<canvas id="cv01" draggable="true" ></canvas>
 			<footer> 
 				<input type="file" id="ima" accept="image/*" onchange="pintarImagen01();" >
-				<!--<button onclick="pintarImagen01();"> Añadir imagen </button>-->
 				<br>
-				<button onclick="copiarCanvas();"> Empezar </button>
-
+				<button onclick="copiarCanvas(); habilitarBotones();">Copiar</button>
 			</footer>
 		</section>
 
@@ -49,11 +46,21 @@
 
 
 			<div class="botones">
-				
-				<button onclick="trasladar();"> Trasladar </button>
-				<button onclick="escalar();"> Escalar </button>
+				Color de líneas:
+				<input type="color" id="color" value="#7316ff">
+				Dificultad:
+				<select id="dificultad">
+				  <option value="facil">fácil</option>
+				  <option value="media">media</option>
+				  <option value="dificil">difícil</option>
+				</select>
+				<br>
+				<button id="b1" onclick="dibujarLineas();"> Empezar </button>
+				<button id="b2" onclick=""> Terminar </button>
+				<button id="b3" onclick=""> Ayuda </button>
+				<!--<button onclick="escalar();"> Escalar </button>
 				<button onclick="rotar();"> Rotar </button>
-				<button onclick="limpiar();"> Limpiar </button>
+				<button onclick="limpiar();"> Limpiar </button>-->
 
 			</div>
 		</section>

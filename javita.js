@@ -20,8 +20,8 @@ var  ncols = 3;
 
 function sacarFilaColumna(e){
     let x = e.offsetX,
-            y = e.offsetY,
-            dim = e.target.width / ncols;
+        y = e.offsetY,
+        dim = e.target.width / ncols;
         let fila;         
         let col;
     col=Math.floor(x/dim);
@@ -55,6 +55,8 @@ function prepararCanvas(){
     context.font = 'bold 18px sans-serif';
     context.textAlign = 'center';
     context.fillText('Haz click o arrastra una imagen aquí',180,120);
+   
+
     //drag and drop
 
     cv.ondragover = function(e){
@@ -113,6 +115,20 @@ function prepararCanvas(){
 }
 
 
+function deshabilitarBotones(){
+    document.getElementById("b1").disabled=true;
+    document.getElementById("b2").disabled=true;
+    document.getElementById("b3").disabled=true;
+
+}
+
+function habilitarBotones(){
+    document.getElementById("b1").disabled=false;
+    document.getElementById("b2").disabled=false;
+    document.getElementById("b3").disabled=false;
+
+}
+
 function copiarCanvas(){
         let cv01 = document.querySelector('#cv01'),
             cv02 = document.querySelector('#cv02'),
@@ -126,7 +142,6 @@ function copiarCanvas(){
 
 }
 
-//mira esto no me sale xd
 function pintarImagen01(){
     let cv = document.querySelector('#cv01'),
     ctx = cv.getContext('2d'),
@@ -152,7 +167,12 @@ function pintarImagen01(){
     };
 
     img.src=imagenURL;
-            
+    /*
+    document.getElementById("ima").blur;
+
+    document.getElementById("ima").addEventListener("blur", copiarCanvas);
+    document.getElementById("ima").addEventListener("blur", habilitarBotones);*/
+
 }
 
 function dibujar(){
@@ -172,7 +192,7 @@ function dibujar(){
         }
         let FC = {'col': col, 'fila':fila};
         cv02.setAttribute('data-FC',JSON.stringify(FC));
-        document.querySelector('#posXY').innerHTML=`(${x},${y}) (Col:${col},Fila:${fila})`;
+        document.querySelector('#posXY').innerHTML='(${x},${y}) (Col:${col},Fila:${fila})';
         console.log('repintado suuuuu')
 
         //pintar trozo imagen
@@ -191,6 +211,7 @@ function empezar(){
    
 }
 
+/*
 function trasladar(){
         let cv = document.querySelector('#cv01'),
         ctx = cv.getContext('2d');
@@ -224,15 +245,25 @@ function limpiar(e){
         cv= section.querySelector('canvas');
 
         cv.width = cv.width;
-}
+}*/
 
 function dibujarLineas(){
         let cv = document.querySelector('#cv02'),
             ctx = cv.getContext('2d'),
+            color = document.getElementById("color").value,
+            dificultad = document.getElementById("dificultad").value;
+
+            if(dificultad=="facil")
+                ncols=6;
+            else if(dificultad=="media")
+                ncols=9;
+            else
+                ncols=12;
+
             dim = cv.width/ncols;
 
             ctx.beginPath();
-            ctx.strokeStyle = '#a00';
+            ctx.strokeStyle = color;
             ctx.lineWidth = 2;
 
             for(let i=1; i<ncols; i++){

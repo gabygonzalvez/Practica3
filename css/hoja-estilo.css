@@ -252,8 +252,8 @@ h2.formulario {
 }
 
 input[type=text], select, [type=password], [type=email], [type=date] {
-    width: 100%;
-    padding: 12px 20px;
+    width: 25%;
+    padding: 10px 15px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #6d3e3e;
@@ -263,7 +263,7 @@ input[type=text], select, [type=password], [type=email], [type=date] {
 }
 
 input[type=button]{
-	width: 50%;
+	width: 30%;
 	background-color: #c5f9f9;
 	color: #845B5B;
 	text-transform: capitalize;
@@ -277,7 +277,7 @@ input[type=button]{
 }
 
 .button{
-	width: 50%;
+	width: 35%;
 	background-color: #c5f9f9;
 	color: #845B5B;
 	text-transform: capitalize;
@@ -514,7 +514,7 @@ div.formulario>article>p{
     cursor: pointer;
 }
 button{
-	width: 50%;
+	width: 25%;
 	background-color: #c5f9f9;
 	color: #845B5B;
 	text-transform: capitalize;
