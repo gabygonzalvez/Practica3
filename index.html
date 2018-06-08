@@ -34,37 +34,41 @@
 			<h2> Imagen </h2>
 			<canvas id="cv01" draggable="true" ></canvas>
 			<footer> 
-				<input type="file" id="ima" accept="image/*" onchange="pintarImagen01();" >
+				<input type="file" id="ima" accept="image/*" onchange="pintarImagen01();" onload="dibujarLineas();">
 				<br>
-				<button onclick="copiarCanvas(); habilitarBotones();">Copiar</button>
+				
+				<!--<button onclick=" dibujarLineas();">Copiar canvas</button>-->
 			</footer>
 		</section>
 
 		<section>
 			<h2> Puzzle </h2>
 			<canvas id="cv02" ></canvas>
-
-
-			<div class="botones">
+			
+				
 				Color de líneas:
 				<input type="color" id="color" value="#7316ff">
 				Dificultad:
-				<select id="dificultad">
+				<select id="dificultad" onchange="dibujarLineas();">
 				  <option value="facil">fácil</option>
 				  <option value="media">media</option>
 				  <option value="dificil">difícil</option>
 				</select>
+				<span>Cronómetro: <span id="segundos">0</span></span>
+				<span>Posición Columnas: </span><p id="mostrarcol"></p>
 				<br>
-				<button id="b1" onclick="dibujarLineas();"> Empezar </button>
-				<button id="b2" onclick=""> Terminar </button>
-				<button id="b3" onclick=""> Ayuda </button>
+				<span>Posición Filas:</span><output id="mostrarfila"></output>
+				
 				<!--<button onclick="escalar();"> Escalar </button>
 				<button onclick="rotar();"> Rotar </button>
 				<button onclick="limpiar();"> Limpiar </button>-->
 
-			</div>
-		</section>
+				<button id="b1" onclick="empezar();""> Empezar </button>
+				<button id="b2" onclick="terminar();"> Terminar </button>
+				<button id="b3" onclick=""> Ayuda </button><br>
+				
 
+		</section>
 	</div>
 	
   <!-- Footer -->
@@ -79,5 +83,13 @@
   <!-- /Footer -->
 
 </body>
+<div id="openModal" class="ELMODAL">
+    <div>
+      <a href="#close" title="Close" class="cerrando">X</a>
+      <h2>Terminaste</h2>
+      
+      <p>Has empleado un total de: <span id="mostrarsegundos">0</span> segundos. </p>
+    </div>
+  </div>
 	
 </html>
