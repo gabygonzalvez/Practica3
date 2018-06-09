@@ -12,19 +12,20 @@
 }*/
 
 
-
-
+var puedes=false;
+var actual;
 var _ANCHO_= 360,
     _ALTO_ = 240;
 var  ncols;
 var dim;
 var nfilas;
-
+var rand=false;
 
 var dimX;
 var dimY;
 
 var puzzle = [];
+var puzzlemezclado = [];
 
 var total;
 
@@ -69,10 +70,11 @@ function separandopiezas(){
         dimXArr=0; //reescribe la columna
         dimYArr += dimY;
     }
+    puzzlemezclado=puzzle.slice();
         
-        function desordenarArray(){
+        /*function desordenarArray(){
 
-            var i=pizza.length;
+            var i=puzzle.length;
 
             while(i--){
                 var j=Math.floor(Math.random()*(i+1));
@@ -81,7 +83,7 @@ function separandopiezas(){
                 puzzle[j]=tmp;
             }
 
-        };
+        };*/
 
         console.log(puzzle);
 }
@@ -96,10 +98,12 @@ function sacarFilaColumna(e){
     let x = e.offsetX,
         y = e.offsetY;
 
-        dim = e.target.width / ncols;
+    dim = e.target.width / ncols;
         
     col=Math.floor(x/dim);
     fila=Math.floor(y/dim);
+
+
 
     return[col,fila];
 }
@@ -207,7 +211,8 @@ function prepararCanvas(){
 
     //EVENTO DE RATON MOVIENDOSE POR ENCIMA
 	let cv02 = document.querySelector('#cv02');
-	    cv02.onmousemove = function (e){
+	    cv02.onmouseup = function (e){
+
 	        let x = e.offsetX,
 	            y = e.offsetY,
 	            dim = e.target.width / ncols;
@@ -215,8 +220,10 @@ function prepararCanvas(){
                 //LLAMAMOS A SACAR FILA COLUMNA
 	        [col,fila]=sacarFilaColumna(e);
 
+            
             console.log(col);
             console.log(fila);
+
 
             document.getElementById("mostrarcol").innerHTML=col;
             document.getElementById("mostrarfila").innerHTML=fila;
@@ -263,9 +270,21 @@ function deshabilitarBotones(){
 
     document.getElementById("b3").disabled=true;
 
+
+
+}
+
+function habilitarbotonespreempezar(){
+     document.getElementById("color").disabled=false;
+
+    document.getElementById("ima").disabled=false;
+    
+    document.getElementById("dificultad").disabled=false;
 }
 
 function habilitarBotones(){
+   
+
     document.getElementById("b1").disabled=false;
 
     document.getElementById("b2").disabled=false;
@@ -277,7 +296,6 @@ function habilitarBotones(){
 
 function habilitarempezar(){
 document.getElementById("b1").disabled=false;
-
 }
 
 
@@ -301,19 +319,125 @@ function copiarCanvas(){
              console.log(dimX);
 
              for(var ini=0; ini < total; ini++){
-                console.log(ini);
-                console.log(puzzle[ini].orX);
-                console.log(puzzle[ini].orY);
-                console.log(dimX);
-                console.log(dimY);
+               
 
                 imgData=ctx01.getImageData(puzzle[ini].orX, puzzle[ini].orY, dimX, dimY);
                 ctx02.putImageData(imgData,puzzle[ini].orX,puzzle[ini].orY);
-             }
+             }           
+}
+
+
+function copiarCanvasMezclado(){
+        let cv01 = document.querySelector('#cv01'),
+            cv02 = document.querySelector('#cv02'),
+            ctx01 = cv01.getContext('2d'),
+            ctx02 = cv02.getContext('2d'),
+            imgData;
+            var x=0, y=0;
+            //imgData es vector, cada pixel 4 posiciones (f,g,b,a)
 
             
+             if(rand==false){
+                puzzlemezclado = puzzlemezclado.sort(function() {return Math.random() - 0.5});
+                rand=true;
+             }
+
+             for(var i = 0; i<total; i++){
+                imgData=ctx01.getImageData(puzzlemezclado[i].orX, puzzlemezclado[i].orY, dimX, dimY);
+                ctx02.putImageData(imgData, x, y);
+                x+=dimX;
+
+                if( x==360){
+                    y+= dimY;
+                    x=0;
+                }
+             }    
             
 }
+
+
+
+///RESALTAR LAS PIEZAS!! 
+
+function resaltarlaspiezas(){
+    console.log("eiii");
+    let cv2 = document.querySelector('#cv02'),
+    ctx = cv2.getContext('2d');
+    var encima=false;
+
+    for(let i=0; i<total; i++){
+        encima=true;
+        console.log("entra al for...");
+        if(i!=puzzlemezclado[i].id){
+            console.log(i);
+            console.log(puzzlemezclado[i].id)
+            ctx.strokeStyle="#ff0000";
+            ctx.lineWidth=3;
+            ctx.rect(0, 0, puzzlemezclado[i].orX, puzzlemezclado[i].orY);
+            ctx.stroke();
+        }
+    }
+
+    cv2.onmouseover=function(e){
+        if(encima==true){
+            console.log(encima);
+            e.stopPropagation();
+            e.preventDefault();
+            encima=false;
+
+            ctx.clearRect(0, 0, _ANCHO_, _ALTO_);
+            dibujarLineasmezcladas();
+        }
+    }
+}
+
+function porencimapieza(){
+    
+        console.log("eiii");
+        let cv2 = document.querySelector('#cv02'),
+        ctx = cv2.getContext('2d');
+        var enc=false;
+        
+        cv2.onmousemove=function(e){
+            if(puedes==true){
+                let x=e.offsetX,
+                     y=e.offsetY,
+                    dim=e.target.width / ncols;
+
+                let fila;
+                let col;
+                col=Math.floor(x/dim);
+                fila=Math.floor(y/dim);
+               
+
+
+               console.log(x)
+               console.log(y)
+
+               for(let i=0; i<total; i++){
+               
+                if(puzzle[i].orX < x && x < puzzle[i].orX+dimX && puzzle[i].orY < y && y < puzzle[i].orY+dimY){
+                     enc=true;
+                     console.log("buasss");
+                    ctx.strokeStyle="#ff8e8e";
+                    ctx.lineWidth=3;
+                    ctx.beginPath();
+                    ctx.rect(puzzle[i].orX, puzzle[i].orY, dimX, dimY);
+                    ctx.stroke();
+                    actual=puzzle[i].id;
+                    //
+                }
+               
+               }
+            }
+               
+               
+                console.log("col: " + col);
+                console.log("fila: " + fila)
+            
+}
+}
+
 
 function pintarImagen01(){
     let cv = document.querySelector('#cv01'),
@@ -382,9 +506,69 @@ function dibujar(){
 
 
 function empezar(){
+    if(puedes==false){
+    puedes=true;}
    habilitarBotones();
    contador=setInterval(tiempo, 1000);
-   dibujarLineas();
+   console.log(puzzle);
+   dibujarLineasmezcladas(); //cuando empieza, a randomizar
+    document.getElementById("color").disabled=true;
+    document.getElementById("ima").disabled=true;
+    document.getElementById("dificultad").disabled=true;
+   porencimapieza();
+   
+}
+
+
+
+function dibujarLineasmezcladas(){
+
+        let cv = document.querySelector('#cv02'),
+            ctx = cv.getContext('2d'),
+            color = document.getElementById("color").value,
+            dificultad = document.getElementById("dificultad").value;
+            
+
+
+            if(dificultad=="facil")
+                ncols=6;
+            else if(dificultad=="media")
+                ncols=9;
+            else
+                ncols=12;
+
+            dim = cv.width/ncols;
+
+            nfilas=_ALTO_/dim;
+            total=nfilas*ncols;
+
+            
+
+
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            
+            //llama a canvas una vez que lo borra
+            
+                ctx.clearRect(0, 0, cv.width, cv.height);
+            
+                copiarCanvasMezclado();
+               
+            for(let i=1; i<ncols; i++){
+                //lineashorizontales
+                ctx.moveTo(0, i * dim);
+                ctx.lineTo(cv.width, i * dim);
+                //lineasverticales
+                ctx.moveTo(i*dim, 0);
+                ctx.lineTo(i * dim, cv.height);
+            }
+            ctx.strokeRect(0,0,cv.width, cv.height);
+            ctx.stroke();
+
+            habilitarempezar();
+            
+            
 }
 
 
@@ -448,6 +632,7 @@ var pie=0;
 
 
 function terminar(){
+     
     let cv = document.querySelector('#cv02');
     let cv1 = document.querySelector('#cv01');
             
@@ -459,15 +644,17 @@ function terminar(){
 
         location.href="#openModal";
         document.getElementById('mostrarsegundos').innerText = seg;
-
+        rand=0;
+       puedes=false;
+        console.log(puedes);
         seg=0;
         document.getElementById('segundos').innerText = seg;
 
         cv.width = cv.width;
         cv1.width = cv1.width;
+        habilitarbotonespreempezar();
         deshabilitarBotones();
         prepararCanvas();
-
 }
 
 
