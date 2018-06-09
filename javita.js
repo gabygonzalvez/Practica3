@@ -29,49 +29,61 @@ var puzzle = [];
 var total;
 
 function separandopiezas(){
-puzzle=[];
-dimX = _ANCHO_/ncols; //ancho  de cada pieza
-dimY= _ALTO_/nfilas; //alto de cada pieza
+    puzzle=[];
+    dimX = _ANCHO_/ncols; //ancho  de cada pieza
+    dimY= _ALTO_/nfilas; //alto de cada pieza
 
-console.log(dimX);
+    console.log(dimX);
 
-var dimXArr=0;
-var dimYArr=0;
-var contadorcin = 0;
+    var dimXArr=0;
+    var dimYArr=0;
+    var contadorcin = 0;
 
-console.log("mer subnormal");
-console.log(ncols);
-console.log("AYYY")
-console.log(nfilas);
+    console.log("mer subnormal");
+    console.log(ncols);
+    console.log("AYYY");
+    console.log(nfilas);
 
 
-console.log('Hola llegas?');
-for(let k=0; k<nfilas; k++){
-    console.log(k);
-    for(let h=0; h<ncols; h++){
+    console.log('Hola llegas?');
+    for(let k=0; k<nfilas; k++){
+        console.log(k);
+        for(let h=0; h<ncols; h++){
 
-       var fichina={ //creamos la ficha
-            orX:null, //origen x
-            orY:null, //origen y
-            id:-1
+           var fichina={ //creamos la ficha
+                orX:null, //origen x
+                orY:null, //origen y
+                id:-1
+            }
+
+            fichina.orX=dimXArr;
+            fichina.orY=dimYArr;
+            fichina.id=contadorcin;
+            puzzle.push(fichina);
+            contadorcin++;
+
+            dimXArr += dimX;
+            console.log(fichina);
+
         }
-
-        fichina.orX=dimXArr;
-        fichina.orY=dimYArr;
-        fichina.id=contadorcin;
-        puzzle.push(fichina);
-        contadorcin++;
-
-        dimXArr += dimX;
-        console.log(fichina);
-
+        dimXArr=0; //reescribe la columna
+        dimYArr += dimY;
     }
-    dimXArr=0; //reescribe la columna
-    dimYArr += dimY;
-    }
-    
+        
+        function desordenarArray(){
 
-    console.log(puzzle);
+            var i=pizza.length;
+
+            while(i--){
+                var j=Math.floor(Math.random()*(i+1));
+                var tmp=puzzle[i];
+                puzzle[i]=puzzle[j];
+                puzzle[j]=tmp;
+            }
+
+        };
+
+        console.log(puzzle);
 }
 
 dimXpuzzle=0;
