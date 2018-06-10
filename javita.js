@@ -302,40 +302,46 @@ document.getElementById("b1").disabled=false;
 
 
 
-
+var mal;
 
 ///RESALTAR LAS PIEZAS!! 
 
-function resaltarlaspiezas(){
-    console.log("eiii");
-    let cv2 = document.querySelector('#cv02'),
-    ctx = cv2.getContext('2d');
-    var encima=false;
+function botonayuda(){
+  let cv2 = document.getElementById("cv02");
+  var ctx = cv2.getContext('2d');
+  var enc = false;
+  console.log(enc);
 
-    for(let i=0; i<total; i++){
-        encima=true;
-        console.log("entra al for...");
-        if(i!=puzzlemezclado[i].id){
-            console.log(i);
-            console.log(puzzlemezclado[i].id)
-            ctx.strokeStyle="#ff0000";
-            ctx.lineWidth=3;
-            ctx.rect(0, 0, puzzlemezclado[i].orX, puzzlemezclado[i].orY);
-            ctx.stroke();
-        }
+  mal=0;
+  for(let i = 0; i < total; i++){
+    enc = true; //por encima sirve para que no de error al pasar el raton por encima sin activar el boton de ayuda
+    if(puzzle[i].id != puzzlemezclado[i].id){ // si i es distinto de la id
+      //console.log("pos i " + i);
+      //console.log("pos array " + arrayPiezasMezcladas[i].id);
+      ctx.fillStyle = "rgba(0, 0, 255, 0.6)";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.fillRect(puzzlemezclado[i].orX, puzzlemezclado[i].orY, dimX, dimY) //igual hay que cambiarlo por las cosas del metodo de abajo
+      ctx.stroke();
+      mal++;
     }
-
-    cv2.onmouseover=function(e){
-        if(encima==true){
-            console.log(encima);
-            e.stopPropagation();
-            e.preventDefault();
-            encima=false;
-
-            ctx.clearRect(0, 0, _ANCHO_, _ALTO_);
-            dibujarLineasmezcladas();
-        }
+    else{
+      //ctx.rect(arrayPiezas[i].orX, arrayPiezas[i].orY, dimX, dimY) //igual hay que cambiarlo por las cosas del metodo de abajo
     }
+  }
+
+  cv2.onmouseover = function(e) {
+    if(enc == true && puedes==true){
+      console.log(enc);
+      e.stopPropagation();
+      e.preventDefault();
+      enc = false;
+
+      ctx.clearRect(0,0,_ANCHO_, _ALTO_)
+      rand=true; 
+      dibujarLineasmezcladas();
+    }
+  }
 }
 
 function porencimapieza(){
@@ -344,8 +350,12 @@ function porencimapieza(){
         let cv2 = document.querySelector('#cv02'),
         ctx = cv2.getContext('2d');
         var enc=false;
-        
-        /*cv2.onmousemove=function(e){
+
+
+
+
+        /*
+        cv2.onmousemove=function(e){
             if(puedes==true){
                 let x=e.offsetX,
                     y=e.offsetY,
@@ -357,10 +367,9 @@ function porencimapieza(){
                 fila=Math.floor(y/dim);
                
 
+                dibujarLineasmezcladas();
 
-               console.log(x)
-               console.log(y)
-
+                
                for(let i=0; i<total; i++){
                
                 if(puzzle[i].orX < x && x < puzzle[i].orX+dimX && puzzle[i].orY < y && y < puzzle[i].orY+dimY){
@@ -379,12 +388,11 @@ function porencimapieza(){
             }
                
                
-                console.log("col: " + col);
-                console.log("fila: " + fila)
+                
             
-        }
+        }*/
 
-        cv2.onmouseout=function(e){
+        /*cv2.onmouseout=function(e){
             if(puedes==true){
                 let x=e.offsetX,
                     y=e.offsetY,
@@ -510,8 +518,6 @@ function empezar(){
     document.getElementById("ima").disabled=true;
     document.getElementById("dificultad").disabled=true;
 
-   porencimapieza();
-
    cv2.onclick = function(e){
         if(puedes==true && seleccionada==false){
             let x=e.offsetX,
@@ -523,6 +529,9 @@ function empezar(){
             col=Math.floor(x/dim);
             fila=Math.floor(y/dim);
 
+            console.log("fila 1: " + fila);
+            console.log("col 1: "+ col);
+
             for(let i=0; i<total && seleccionada==false; i++){
                    
                 if(puzzlemezclado[i].orX < x && x < puzzlemezclado[i].orX+dimX && puzzlemezclado[i].orY < y && y < puzzlemezclado[i].orY+dimY){
@@ -533,6 +542,7 @@ function empezar(){
                     ctx.stroke();
                     seleccionada=true;
                     pieza=i;
+                    console.log("primer for: " + pieza)
                }
             }
         }
@@ -543,13 +553,16 @@ function empezar(){
 
             let fila;
             let col;
-            col=Math.floor(x/dim);
-            fila=Math.floor(y/dim);
+            fila=Math.floor(x/dim);
+            col=Math.floor(y/dim);
+
+            console.log("fila 2: " + fila);
+            console.log("col 2: " + col);
 
             for(let i=0; i<total; i++){
                    
                 if(puzzlemezclado[i].orX < x && x < puzzlemezclado[i].orX+dimX && puzzlemezclado[i].orY < y && y < puzzlemezclado[i].orY+dimY){
-                    if(i==pieza){
+                    if(i==pieza){ //si es igual que no haga nada?
                         ctx.strokeStyle=color;
                         ctx.lineWidth=2;
                         ctx.beginPath();
@@ -568,12 +581,29 @@ function empezar(){
                         seleccionada=false;
                         numMovimientos++;
 
+
+                        console.log("pieza que selecciono: " + i)
+                        console.log("pieza cambiada: "+ pieza)
+
                         
+                        let cv02 = document.querySelector('#cv02'),
+                            ctx02 = cv02.getContext('2d'),
+                            imgData;
+                            
+                            //imgData es vector, cada pixel 4 posiciones (f,g,b,a)
+                            
+                            cachin=ctx02.getImageData(puzzlemezclado[pieza].orX, puzzlemezclado[pieza].orY, dimX, dimY);
 
-                        dibujarPuzzleMezclado();
+                            imgData=ctx02.getImageData(puzzlemezclado[i].orX, puzzlemezclado[i].orY, dimX, dimY);
+                            
+                            ctx02.putImageData(imgData, puzzlemezclado[pieza].orX, puzzlemezclado[pieza].orY);
+                            ctx02.putImageData(cachin, puzzlemezclado[i].orX, puzzlemezclado[i].orY);
+                            
+                                
+                               
 
-                        console.log(puzzlemezclado[pieza]);
-                        console.log(puzzlemezclado[i]);
+                            console.log(puzzlemezclado[pieza]);
+                            console.log(puzzlemezclado[i]);
 
 
                         ctx.strokeStyle=color;
@@ -586,61 +616,11 @@ function empezar(){
             }
         }
    }
-
+porencimapieza();
    
 }
 
-function dibujarPuzzleMezclado(){
 
-    for (i = 0; i < puzzlemezclado.length; i++) {
-        imgData=ctx01.getImageData(puzzle[ini].orX, puzzle[ini].orY, dimX, dimY);
-        ctx02.putImageData(imgData,puzzle[ini].orX,puzzle[ini].orY);
-    }
-
-    /*let cv = document.querySelector('#cv02'),
-            ctx = cv.getContext('2d'),
-            color = document.getElementById("color").value,
-            dificultad = document.getElementById("dificultad").value;
-            
-
-
-            if(dificultad=="facil")
-                ncols=6;
-            else if(dificultad=="media")
-                ncols=9;
-            else
-                ncols=12;
-
-            dim = cv.width/ncols;
-
-            nfilas=_ALTO_/dim;
-            total=nfilas*ncols;
-
-            
-
-
-            ctx.beginPath();
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 2;
-            
-            //llama a canvas una vez que lo borra
-            
-                ctx.clearRect(0, 0, cv.width, cv.height);
-            
-            copiarCanvasMientrasPuzzle();
-
-            for(let i=1; i<ncols; i++){
-                //lineashorizontales
-                ctx.moveTo(0, i * dim);
-                ctx.lineTo(cv.width, i * dim);
-                //lineasverticales
-                ctx.moveTo(i*dim, 0);
-                ctx.lineTo(i * dim, cv.height);
-            }
-            ctx.strokeRect(0,0,cv.width, cv.height);
-            ctx.stroke();*/
-
-}
 
 function dibujarLineasmezcladas(){
 
@@ -772,31 +752,7 @@ function copiarCanvas(){
              }           
 }
 
-function copiarCanvasMientrasPuzzle(){
-        let v01 = document.querySelector('#cv01'),
-            cv02 = document.querySelector('#cv02'),
-            ctx01 = cv01.getContext('2d'),
-            ctx02 = cv02.getContext('2d'),
-            imgData;
-            var x=0, y=0;
-            //imgData es vector, cada pixel 4 posiciones (f,g,b,a)
-            
-             for(var i = 0; i<total; i++){
-                imgData=ctx01.getImageData(puzzlemezclado[i].orX, puzzlemezclado[i].orY, dimX, dimY);
-                ctx02.putImageData(imgData, puzzlemezclado[i].orX, puzzlemezclado[i].orY);
-                x+=dimX;
 
-                if( x==360){
-                    y+= dimY;
-                    x=0;
-                }
-             }       
-
-            /*cv02.width = cv02.width;
-            let ctx02 = cv02.getContext('2d');
-            ctx02.drawImage(cv01,col*dim,fila*dim,dim, dim,col*dim,fila*dim,dim,dim);
-            dibujarLineas();    */
-}
 
 function copiarCanvasMezclado(){
         let cv01 = document.querySelector('#cv01'),
