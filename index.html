@@ -54,10 +54,12 @@
 				  <option value="media">media</option>
 				  <option value="dificil">difícil</option>
 				</select>
-				<span>Cronómetro: <span id="segundos">0</span></span>
-				<span>Posición Columnas: </span><p id="mostrarcol"></p>
+				<span>Cronómetro: <span id="segundos">0</span></span><br>
+				<span>Malas piezas: </span><p id="contarMal">0</p><br>
+				<span>Movimientos: </span><p id="mostrarmovimientos">0</p>
+
 				<br>
-				<span>Posición Filas:</span><output id="mostrarfila"></output>
+				
 				
 				<!--<button onclick="escalar();"> Escalar </button>
 				<button onclick="rotar();"> Rotar </button>
@@ -88,7 +90,15 @@
       <a href="#close" title="Close" class="cerrando">X</a>
       <h2>Terminaste</h2>
       
-      <p>Has empleado un total de: <span id="mostrarsegundos">0</span> segundos y <span id="mostrarmovimientos">0</span> movimientos con un número de <span id="piezasmal">0</span> piezas desordenadas. </p>
+      <p>Has empleado un total de: <span id="mostrarsegundos">0</span> segundos y <span id="mostrarmovimientos"></span> movimientos con un número de <span id="piezasmal">0</span> piezas desordenadas. </p>
+    </div>
+  </div>
+  <div id="openModal2" class="ELMODAL">
+    <div>
+      <a href="#close" title="Close" class="cerrando">X</a>
+      <h2>¡Enhorabuena! ¡Has completado el puzzle!</h2>
+      
+      <p>Has empleado un total de: <span id="mostrarsegundos">0</span> segundos y <span id="mostrarmovimientos"></span> movimientos con un número de <span id="piezasmal">0</span> piezas desordenadas. </p>
     </div>
   </div>
 	

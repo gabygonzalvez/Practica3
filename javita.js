@@ -11,7 +11,7 @@
 	ctx.fillRect(150, 20, 80, 60);
 }*/
 
-
+var contadorito=0;
 var puedes=false;
 var actual;
 var _ANCHO_= 360,
@@ -121,7 +121,7 @@ function prepararCanvas(){
         e.width = _ANCHO_;
         e.height = _ALTO_;
     });
-
+    contarMal();
 
     limpiarCanvas = function(){ //para limpiar el texto predeterminado cuando imagen
         if(tienteTexto){
@@ -227,9 +227,7 @@ function prepararCanvas(){
             console.log(fila);
 
 
-            document.getElementById("mostrarcol").innerHTML=col;
-            document.getElementById("mostrarfila").innerHTML=fila;
-
+            
             /*
 	        if(cv02.getAttribute('data-FC')){
 	            let FC =  JSON.parse(cv02.getAttribute('data-FC'));
@@ -497,11 +495,18 @@ function dibujar(){
 
 function contarMal(){
     piezasMal=0;
+
     for(let i=0; i<total; i++){
-        if(puzzle[i]!=puzzlemezclado[i]){
-            piezasMal++;
+        if(puzzle[i].id != puzzlemezclado[i].id){
+            piezasMal++;    
+        }else{
+            piezasMal--;
         }
+        
+        
     }
+    document.getElementById('contarMal').innerText = piezasMal;
+
 }
 
 
@@ -521,11 +526,11 @@ function empezar(){
 
    habilitarBotones();
    contador=setInterval(tiempo, 1000);
-   contarMal();
+   
    console.log(piezasMal);
    console.log(puzzle);
    dibujarLineasmezcladas(); //cuando empieza, a randomizar
-
+    contarMal();
     document.getElementById("color").disabled=true;
     document.getElementById("ima").disabled=true;
     document.getElementById("dificultad").disabled=true;
@@ -587,12 +592,25 @@ function empezar(){
                         console.log(puzzlemezclado[pieza]);
                         console.log(puzzlemezclado[i]);
 
+                        auxId=puzzlemezclado[i].id;
+                        auxId2=puzzlemezclado[pieza].id;
+
+                        console.log("ID AUX DEL I " + auxId)
+                        console.log("ID AUZ DEL 2 DE PIEZA" + auxId2)
+
+
+
                         piezaAux=puzzlemezclado[i];
                         puzzlemezclado[i]=puzzlemezclado[pieza];
                         puzzlemezclado[pieza]=piezaAux;
-                        seleccionada=false;
-                        numMovimientos++;
 
+                        /*
+                        puzzlemezclado[i].id=auxId;
+                        puzzlemezclado[pieza].id=auxId2;*/
+
+                        seleccionada=false;
+                        
+                        aumentarmovimientos();
 
                         console.log("pieza que selecciono: " + i)
                         console.log("pieza cambiada: "+ pieza)
@@ -611,12 +629,20 @@ function empezar(){
                             ctx02.putImageData(imgData, puzzlemezclado[pieza].orX, puzzlemezclado[pieza].orY);
                             ctx02.putImageData(cachin, puzzlemezclado[i].orX, puzzlemezclado[i].orY);
                             
-                                
-                               
+                                /*console.log("PUZZLE ID PIEZA" + puzzle[i].id)
+                                console.log("ID PIEZA DESORDENADA" + puzzlemezclado[i].id)
 
+                                console.log(auxId + " deberia ser igual a: " + puzzlemezclado[pieza].id)
+                                console.log(auxId2 + " deberia ser igual a: " + puzzlemezclado[i].id)
+                               
+                                console.log(puzzlemezclado[pieza].id + "no es igual que: " + puzzle[pieza].id)
+                                console.log(puzzlemezclado[i].id + "no es igual que: " + puzzle[i].id)
+*/
+                                
+                            contarMal();
                             console.log(puzzlemezclado[pieza]);
                             console.log(puzzlemezclado[i]);
-
+                            comprobarcorrecto();
 
                         ctx.strokeStyle=color;
                         ctx.lineWidth=2;
@@ -627,12 +653,41 @@ function empezar(){
                }
             }
         }
+
+
    }
+
+comprobarcorrecto();
 porencimapieza();
    
+
 }
 
+var moves;
 
+
+function comprobarcorrecto(){
+    /*
+    for(let i=0; i<total && contadorito<total; i++){
+        if(puzzle[i].id == puzzlemezclado[i].id){
+            contadorito ++;
+            console.log("total:" + total)
+            console.log("ccontadorin: " + contadorito)
+        }
+    }
+    if(contadorito>=total){
+        location.href="#openModal2";
+        console.log("bien")
+    }*/
+}
+
+function aumentarmovimientos(){
+    
+    numMovimientos++;
+    document.getElementById("mostrarmovimientos").innerHTML=numMovimientos;
+                        
+     moves=numMovimientos;
+}
 
 function dibujarLineasmezcladas(){
 
@@ -778,6 +833,7 @@ function copiarCanvasMezclado(){
             
              if(rand==false){
                 puzzlemezclado = puzzlemezclado.sort(function() {return Math.random() - 0.5});
+
                 rand=true;
              }
 
@@ -807,16 +863,19 @@ function terminar(){
         clearInterval(contador);
         
         pie=0;
-
+        console.log("numMovimientos" + numMovimientos)
         location.href="#openModal";
-        document.getElementById('mostrarsegundos').innerText = seg;
-        document.getElementById('mostrarmovimientos').innerText = numMovimientos;
-        document.getElementById('piezasmal').innerText = piezasMal;
-
+        document.getElementById('mostrarsegundos').innerHTML = seg;
+        document.getElementById('mostrarmovimientos').innerHTML = numMovimientos;
+        document.getElementById('piezasmal').innerHTML = piezasMal;
+        console.log(numMovimientos);
         rand=0;
         puedes=false;
         console.log(puedes);
         seg=0;
+        piezasMal=0;
+        numMovimientos=0;
+       
         document.getElementById('segundos').innerText = seg;
 
         cv.width = cv.width;
