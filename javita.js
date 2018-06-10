@@ -21,6 +21,7 @@ var dim;
 var nfilas;
 var rand=false;
 var numMovimientos=0;
+var piezasMal=0;
 
 var dimX;
 var dimY;
@@ -494,7 +495,14 @@ function dibujar(){
     }
 }
 
-
+function contarMal(){
+    piezasMal=0;
+    for(let i=0; i<total; i++){
+        if(puzzle[i]!=puzzlemezclado[i]){
+            piezasMal++;
+        }
+    }
+}
 
 
 function empezar(){
@@ -503,6 +511,8 @@ function empezar(){
     var seleccionada=false;
     var pieza;
     var piezaAux;
+    var auxId;
+    var auxId2;
     var color=document.getElementById("color").value;
 
     if(puedes==false){
@@ -511,6 +521,8 @@ function empezar(){
 
    habilitarBotones();
    contador=setInterval(tiempo, 1000);
+   contarMal();
+   console.log(piezasMal);
    console.log(puzzle);
    dibujarLineasmezcladas(); //cuando empieza, a randomizar
 
@@ -799,6 +811,8 @@ function terminar(){
         location.href="#openModal";
         document.getElementById('mostrarsegundos').innerText = seg;
         document.getElementById('mostrarmovimientos').innerText = numMovimientos;
+        document.getElementById('piezasmal').innerText = piezasMal;
+
         rand=0;
         puedes=false;
         console.log(puedes);
